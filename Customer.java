@@ -5,11 +5,9 @@ import java.util.List;
 
 class Customer extends Person{  // Класс покупателя
 
-    private String name;
-    private String id;
     private double money;
     private List<Product> purchases = new ArrayList<>();
-    private SalesPoint products = new  SalesPoint();
+    //private SalesPoint products = new  SalesPoint();
 
 
     public Customer(String name, String id, double money) {
@@ -26,28 +24,37 @@ class Customer extends Person{  // Класс покупателя
     public List<Product> getPurchases() { return purchases; }
 
 
-    public boolean buy(SalesPoint point, Product product, int quantity){
+    public boolean buy(SalesPoint point, Product product, int quantity) {
+        if (!point.getProducts().contains(product) || product.getQuantity() < quantity) {
+            System.out.println("Товар недоступен в указанном количестве");
+            return false;
+        }
+
         double totalCost = product.getPrice() * quantity;
         if (totalCost > this.money) {
             System.out.println("Недостаточно денег для покупки");
             return false;
         }
-        this.money -= totalCost;
 
-        purchases.add(product);
-        product.quantity-=quantity;
-        products.getProducts().remove(product);
+        this.money -= totalCost;
+        point.sellProduct(product, quantity);
+
+        // Добавляем купленный товар в список покупок
+        Product purchasedProduct = new Product(product.getId(), product.getName(),
+                product.getCategory(), product.getPrice(), quantity);
+        purchases.add(purchasedProduct);
         return true;
     }
 
     public boolean returnProduct(SalesPoint point, Product product, int quantity) {
-        this.money += product.getPrice();
+        if (!purchases.contains(product)) {
+            System.out.println("Этот товар не был куплен");
+            return false;
+        }
+
+        this.money += product.getPrice() * quantity;
+        point.acceptReturn(product, quantity);
         purchases.remove(product);
-        product.quantity += quantity;
-        products.getProducts().add(product);
         return true;
     }
-
-
-
 }
