@@ -4,14 +4,13 @@ public class Employee extends Person{ // Класс работника комп�
     private String position;  // Должность сотрудника
     private double salary;    // Зарплата сотрудника
     private boolean isActive; // Флаг активности (работает/уволен)
-    private String name;
-    private String id;
+
 
     public Employee(String name, String id, String position, double salary, boolean isActive) {
         super(name, id);
         this.position = position;
         this.salary = salary;
-        this.isActive = true;
+        this.isActive = isActive;
 
     }
 
@@ -38,7 +37,4 @@ public class Employee extends Person{ // Класс работника комп�
         this.salary = salary;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 }
