@@ -37,15 +37,22 @@ class StorageCell { // Класс ячейки склада
     }
 
     public void addProduct(int quantity) {
+        if (this.product == null) {
+            throw new IllegalStateException("No product set in the cell");
+        }
         if (this.currentQuantity + quantity > this.capacity) {
-            throw new IllegalStateException();
+            throw new IllegalStateException("Exceeds cell capacity");
         }
         this.currentQuantity += quantity;
     }
 
+
     public void removeProduct(int quantity){
-        if (this.currentQuantity + quantity < this.capacity) {
-            throw new IllegalStateException();
+        if (this.product == null) {
+            throw new IllegalStateException("No product set in the cell");
+        }
+        if (this.currentQuantity - quantity < 0) {
+            throw new IllegalStateException("Not enough quantity in cell");
         }
         this.currentQuantity -= quantity;
     }
