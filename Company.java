@@ -1,8 +1,6 @@
 package TradeTurnover;
 
-import java.io.*;
 import java.util.*;
-import java.time.LocalDate;
 
 public class Company {
     private String name;             // Название компании
@@ -11,7 +9,7 @@ public class Company {
     private List<Warehouse> warehouses; // Список складов
     private List<SalesPoint> salesPoints; // Список точек продаж
     private List<Product> productCatalog; // Каталог товаров
-    private Employee employee ;
+    //private Employee employee ;
 
     public Company(String name) {
         this.name = name;
@@ -23,20 +21,35 @@ public class Company {
     }
 
     //Уволить сотрудника
-    public void fire(){
+    public void fire(Employee employee){
         employee.setActive(false);
         employee.setPosition("Уволен");
     }
 
     //нанять нового сотрудника
-    public void hire(String name, String position, double salary){
-        employee.setName(name);
-        employee.setPosition(position);
-        employee.setSalary(salary);
-        employee.setActive(true);
+    public Employee hire(String name, String id, String position, double salary) {
+        Employee employee = new Employee(name, id, position, salary, true);
         employees.add(employee);
+        return employee;
     }
 
+    // Добавить товар в каталог
+    public void addProductToCatalog(Product product) {
+        productCatalog.add(product);
+    }
+
+    // Удалить товар из каталога
+    public boolean removeProductFromCatalog(String productId) {
+        Iterator<Product> iterator = productCatalog.iterator();
+        while (iterator.hasNext()) {
+            Product product = iterator.next();
+            if (product.getId().equals(productId)) {
+                iterator.remove();
+                return true;
+            }
+        }
+        return false;
+    }
 
     //Открывает новый склад
     public void openWarehouse(Warehouse warehouse) {
@@ -68,21 +81,3 @@ public class Company {
         }
     }
 }
-
-
-
-////Перемещение товара
-//Смена ответственного лица
-////Товар по продаже
-////Возврат товара
-//Закупка товара
-////Naim employee
-////Увольнение сотрудника
-////Открытие нового склада
-////Закрытие склада
-////Открытие пункта продаж
-////Закрытие точки продаж
-//Информация о складе/пунктах продаж
-//Информация о товарах на складе/пунктах продаж
-//Информация о товарах, доступных для закупки
-//Информация о доходности предприятия/пункта продаж
