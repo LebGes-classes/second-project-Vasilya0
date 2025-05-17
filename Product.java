@@ -5,15 +5,13 @@ class Product { // Класс товара
     private String name;          // Наименование товара
     private String category;      // Категория товара
     private double price; //  цена
-
-    int quantity;         // Количество на складе
+    private int quantity;         // Количество на складе
 
     public Product(String id, String name, String category, double price, int quantity) {
         this.id = id;
         this.name = name;
         this.category = category;
         this.price = price;
-
         this.quantity = quantity;
     }
 
@@ -43,12 +41,12 @@ class Product { // Класс товара
         this.quantity = quantity;
     }
 
-    public void setPrice(double Price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
     public String getInfo(){
-        return super.toString() + ", ID: " + id +
+        return ", ID: " + id +
                 ", Name: " + name + ", Price: " + price + "Quantity" + quantity;
 
     }
