@@ -5,22 +5,21 @@ import java.util.*;
 class SalesPoint implements ShowInfo{  // Класс пункта продаж
     private String pointId;       // Уникальный ID точки продаж
     private String address;       // Адрес точки
-    private List<Product> products;
-    // Товары в наличии
+    private List<Product> products; // Товары в наличии
     private Employee cashier;     // Менеджер точки
     private boolean isActive;     // Флаг активности
     private double dailyRevenue;  // Дневная выручка
 
     public SalesPoint() {
-        this.pointId = pointId;
-        this.address = address;
-        this.cashier = cashier;
+        this.pointId = "";
+        this.address = "";
+        this.cashier = null;
         this.products = new ArrayList<>();
         this.isActive = true;
         this.dailyRevenue = 0;
     }
 
-    public SalesPoint(String pointId, String address, Employee manager) {
+    public SalesPoint(String pointId, String address, Employee cashier) {
         this.pointId = pointId;
         this.address = address;
         this.cashier = cashier;
@@ -62,22 +61,32 @@ class SalesPoint implements ShowInfo{  // Класс пункта продаж
     }
 
     public boolean sellProduct(Product product, int quantity){
+        if (!products.contains(product) || product.getQuantity() < quantity) {
+            return false;
+        }
+
         double totalCost = product.getPrice() * quantity;
-
         this.dailyRevenue += totalCost;
+        product.updateQuantity(-quantity);
 
-        product.quantity-=quantity;
-        products.remove(product);
+        // Если товар закончился, удаляем его из списка
+        if (product.getQuantity() == 0) {
+            products.remove(product);
+        }
         return true;
     }
 
     public boolean acceptReturn(Product product, int quantity) {
         double totalCost = product.getPrice() * quantity;
-
         this.dailyRevenue -= totalCost;
 
-        product.quantity+=quantity;
-        products.add(product);
+        if (products.contains(product)) {
+            product.updateQuantity(quantity);
+        } else {
+            Product returnedProduct = new Product(product.getId(), product.getName(),
+                    product.getCategory(), product.getPrice(), quantity);
+            products.add(returnedProduct);
+        }
         return true;
     }
 
@@ -87,8 +96,11 @@ class SalesPoint implements ShowInfo{  // Класс пункта продаж
 
     @Override
     public void showInfo() {  //Получает список всех товаров на пункте
-        System.out.println(products.toString());
-        System.out.println(dailyRevenue);
+        System.out.println("Товары на точке продаж " + pointId + ":");
+        for (Product product : products) {
+            System.out.println(product.getInfo());
+        }
+        System.out.println("Дневная выручка: " + dailyRevenue);
 
     }
 }
