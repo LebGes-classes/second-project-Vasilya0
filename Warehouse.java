@@ -8,7 +8,7 @@ class Warehouse implements ShowInfo{  // Класс склада
     private List<StorageCell> cells; // Список ячеек хранения
     private boolean isActive;      // Флаг активности склада
     private Employee manager;      // Менеджер склада
-    private Company company;
+    //private Company company;
 
     public Warehouse(String warehouseId, String address, Employee manager) {
         this.warehouseId = warehouseId;
@@ -16,7 +16,7 @@ class Warehouse implements ShowInfo{  // Класс склада
         this.manager = manager;
         this.cells = new ArrayList<>();
         this.isActive = true;
-        this.company = company;
+        //this.company = company;
     }
 
     public String getWarehouseId() {
@@ -91,13 +91,19 @@ class Warehouse implements ShowInfo{  // Класс склада
     }
 
     @Override
-    public void showInfo() {  //Получает список всех товаров на складе
-        List<Product> products = new ArrayList<>();
+    public void showInfo() {
+        System.out.println("Warehouse ID: " + warehouseId);
+        System.out.println("Address: " + address);
+        System.out.println("Manager: " + manager.getName());
+        System.out.println("Active: " + isActive);
+        System.out.println("Storage cells content:");
+
         for (StorageCell cell : cells) {
             if (cell.getProduct() != null) {
-                products.add(cell.getProduct());
+                System.out.println("Cell " + cell.getCellId() + ": " +
+                        cell.getProduct().getInfo() +
+                        " (Qty: " + cell.getCurrentQuantity() + ")");
             }
         }
-        System.out.printf(products.toString());
     }
 }
