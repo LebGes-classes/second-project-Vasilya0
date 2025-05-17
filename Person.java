@@ -9,8 +9,8 @@ public class Person {  // Абстрактный класс для персон�
     private String id;
 
     public Person(){
-        this.name = name;
-        this.id = id;
+        this.name = "";
+        this.id = "";
     }
 
     public Person(String name, String id){
@@ -25,6 +25,7 @@ public class Person {  // Абстрактный класс для персон�
         return id;
     }
 
+    @Override
     public String toString() {
         return "Name: " + name + ", ID: " + id;
     }
